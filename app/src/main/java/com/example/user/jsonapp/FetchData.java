@@ -16,6 +16,7 @@ import java.net.URL;
 
 public class FetchData extends AsyncTask {
 
+    String data;
     @Override
     protected Object doInBackground(Object[] params) {
         //establish URL
@@ -46,6 +47,7 @@ public class FetchData extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         //display the result in textView
+        MainActivity.textView.setText(this.data);
     }
 
 
