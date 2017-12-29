@@ -2,6 +2,10 @@ package com.example.user.jsonapp;
 
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +20,8 @@ import java.net.URL;
 
 public class FetchData extends AsyncTask {
 
-    String data;
+    String data = "";
+    String data2 = "";
     @Override
     protected Object doInBackground(Object[] params) {
         //establish URL
@@ -34,9 +39,21 @@ public class FetchData extends AsyncTask {
                 data = data + line;
             }
 
+            //remove {}, []
+            JSONArray JA = new JSONArray(data);
+            for(int i=0; i < JA.length();i++){
+                JSONObject JO = (JSONObject) JA.get(i);
+                String data1 = "Name: " + JO.get("name") +
+                                "\nAge: " + JO.get("age") +
+                                "\nDOB: " + JO.get("dob") + "\n\n";
+                data2 = data2 + data1;
+            }
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
@@ -47,7 +64,7 @@ public class FetchData extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         //display the result in textView
-        MainActivity.textView.setText(this.data);
+        MainActivity.textView1.setText(this.data2);
     }
 
 
